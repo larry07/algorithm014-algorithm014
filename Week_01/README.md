@@ -94,6 +94,17 @@ void slidingWindow(string s, string t) {
 
 `map.insert(make_pair(complement,i))`  注意C++ insert 不会覆盖，`map[complement]=i` 可以覆盖，并且可以作为新插入
 
+`map[nums[i]]++;`可以插入(默认0)或自增，因为**[ ]是一个可读写操作**，所以全计数时可用，但副作用就是写了`(key,0)`使用应该`if(map.count(nums[i]) && map[nums[i]]>0)`  即判断时不能直接使用map[nums[i]] ，因为如下，一旦使用，就输入了一次！！！
+
+```C++
+unordered_map<ListNode*,int> m;
+    if(m.count(h1))cout<<"0"<<endl;
+    if(m[h1]) 	   cout<<"判断"<<endl;
+    if(m.count(h1))cout<<"have h1"<<endl; //最终输出 have h1
+```
+
+最稳妥的是**读操作**使用`map.at(key)` 如果key不存在，则会报错`if(map.count(nums[i]) && map.at(nums[i])>0)`
+
 `return  {nums[i],nums[j],nums[k]};` 对于返回vector 的 ，可以返回初始化列表
 
 `if(i>0 && nums[i]==nums[i-1])continue;`  //去重 只要第一个 ;3元组 不能重复 **不能要最后一个 漏解 0 0 0**
