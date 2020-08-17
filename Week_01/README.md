@@ -94,7 +94,7 @@ void slidingWindow(string s, string t) {
 
 `map.insert(make_pair(complement,i))`  注意C++ insert 不会覆盖，`map[complement]=i` 可以覆盖，并且可以作为新插入
 
-`map[nums[i]]++;`可以插入(默认0)或自增，因为**[ ]是一个可读写操作**，所以全计数时可用，但副作用就是写了`(key,0)`使用应该`if(map.count(nums[i]) && map[nums[i]]>0)`  即判断时不能直接使用map[nums[i]] ，因为如下，一旦使用，就输入了一次！！！
+`map[nums[i]]++;`可以插入(默认0)或自增，因为 **[ ]是一个可读写操作**，所以全计数时可用，但副作用就是写了`(key,0)`使用应该`if(map.count(nums[i]) && map[nums[i]]>0)`  即判断时不能直接使用map[nums[i]] ，因为如下，一旦使用，就输入了一次！！！
 
 ```C++
 unordered_map<ListNode*,int> m;
