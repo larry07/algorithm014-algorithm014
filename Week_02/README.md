@@ -18,7 +18,7 @@
 
 牢记遍历顺序
 
-![2tree](.\res\2tree-traverse.png)
+![2tree](./res/tree-traverse.png)
 
 #### 层次遍历
 
