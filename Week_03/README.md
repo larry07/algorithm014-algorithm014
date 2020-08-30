@@ -247,6 +247,96 @@ void backtrace(vector<vector<int>>& res,const vector<int>& nums,
 
 ```
 
+### 从前序和后序序列构建二叉树
+
+主要是从中序 知道**当前根节点**=>再从前序得到**分割的区间**，进行分治
+
+为避免从中序序列遍历得到索引值，使用哈希表存储  `值-索引`  关系，以下为使用数组
+
+```c++
+maxVal=INT_MIN;//全局，因为函数 index 要使用
+int minVal=INT_MAX;
+for(auto x:inorder){
+    minVal = min(minVal,x);
+    maxVal = max(maxVal,x);
+}
+int* nodeMap = new int[minVal>=0? maxVal+1: maxVal-minVal+1]; //构建哈希表
+for (int i = 0; i < m; i++) {
+    nodeMap[index(inorder[i])] = i;
+}
+inline int index(int val) {
+    return (val >= 0 ? val : maxVal - val);
+}//[0 maxVal] 存正数，(maxVal maxVal-minVal]存负数 	共maxVal-minVal+1个数
+```
+
+构建是一个前序遍历过程
+
+```c++
+TreeNode* build(const vector<int>& preorder,int pl,int pr,int il,int* nodeMap){
+    if(pl==pr)		//[pl pr) 前闭后开
+        return NULL;
+
+    int rootVal = preorder[pl];
+    TreeNode* root = new TreeNode(rootVal);
+
+    int rootIndex = nodeMap[index(rootVal)];
+
+    int delta = rootIndex - il;
+    root->left = build(preorder,pl + 1, pl + delta + 1, il,nodeMap);
+    root->right = build(preorder,pl + delta + 1, pr, rootIndex + 1, nodeMap);
+    //[rootIndex+1 ..new rootIndex 绝对索引
+
+    return root;
+}
+build(preorder, 0, n, 0, nodeMap);
+```
+
+**迭代法原理**
+
+对于前序遍历中的任意两个连续节点 u 和 v， u和v只有两种可能的关系：
+
+- v 是 u 的左儿子。
+- u 没有左儿子，并且 v 是 u 的某个祖先节点（或者 u 本身）的右儿子。
+  如果 u 没有左儿子，那么下一个遍历的节点就是 u 的右儿子。
+  如果 u 没有右儿子，就会向上回溯，直到遇到**第一个**有右儿子（且 u 不在它的右儿子的子树中）的节点 $u_a$，那么 v 就是 $u_a$的右儿子。
+
+就相当于带两个端点的线段`u=>v=>`一前一后，沿着前序遍历的轮廓——向前滑动所能遇见的情况。
+
+栈:	存当前节点的所有还没有考虑过右儿子的祖先节点，栈顶就是当前节点。初始为前序遍历的第一个节点。
+index: 	指向中序遍历的某个位置，初值0。对应节点是「当前节点不断往左走达到的最终节点」
+
+目前还没有掌握。
+
+```c++
+TreeNode* buildTree(vector<int>& preorder, vector<int>& inorder) {
+	if (!preorder.size()) {
+		return nullptr;
+	}
+	TreeNode* root = new TreeNode(preorder[0]);
+	stack<TreeNode*> stk;
+	stk.push(root);
+	int inorderIndex = 0;
+	for (int i = 1; i < preorder.size(); ++i) {
+		int preorderVal = preorder[i];
+		TreeNode* node = stk.top();
+		if (node->val != inorder[inorderIndex]) {
+			node->left = new TreeNode(preorderVal);
+			stk.push(node->left);
+		}
+		else {
+			while (!stk.empty() && stk.top()->val == inorder[inorderIndex]) {
+				node = stk.top();
+				stk.pop();
+				++inorderIndex;
+			}
+			node->right = new TreeNode(preorderVal);
+			stk.push(node->right);
+		}
+	}
+	return root;
+}
+```
+
 
 
 ## 一些附加
