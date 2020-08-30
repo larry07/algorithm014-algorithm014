@@ -10,12 +10,20 @@ class Solution {
         }
 
         for(int i=start;i<=n+1-(k- list.size());i++){
-            //if(list.empty()||i>list.back()){//放入的时候就要剪枝
+            //if(list.empty()||i>list.back()){//放入的时候就能剪枝
                 list.push_back(i);
                 dfs(n,k,i+1);		//i+1即可有序 而不是 start+1
                 list.pop_back();  
             //}    
         }
+/*		传入i (=start)
+		if (vec.size() + n - i + 1 < k) return;
+        dfs(res, vec, n, i + 1, k);  //不选择当前
+		
+        vec.push_back(i);
+        dfs(res, vec, n, i + 1, k); //选择当前！
+        vec.pop_back();
+*/
     }
 public:
     vector<vector<int>> combine(int n, int k) {

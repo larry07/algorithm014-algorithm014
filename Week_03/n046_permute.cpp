@@ -7,7 +7,7 @@
 class Solution {
 public:
     void backtrack(vector<vector<int>>& res, vector<int>& nums, int first, int len){
-        if (first == len) {// 所有数都填完了
+        if (first == len) {
             res.emplace_back(nums);
             return;
         }

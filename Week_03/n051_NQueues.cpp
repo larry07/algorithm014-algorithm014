@@ -10,7 +10,7 @@ class Solution {
         for(int i=0;i<row;i++){
             if(pos[i]==col||
                 (pos[i]+i==col+row)||
-                (pos[i]-i==col-row))
+                (pos[i]-i==col-row))// 实际上就是x+y  x-y的截距一样
                 return false;
         }
         return true;
@@ -31,7 +31,8 @@ class Solution {
     }
 public:
     vector<vector<string>> solveNQueens(int n) {
-        //求n个坐标 距离差>7  一定在不同行! 不用pair 按顺序即可
+        //求n个坐标 距离差>7  后面发现此题测试不考虑8以上的 7这一限制就不需要了
+		//一定在不同行! 不用pair 按顺序即可
         vector<vector<int> >ans;
         vector<int> pos(n,0);
 

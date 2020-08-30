@@ -10,13 +10,14 @@
  
  /**
  递归  从中序 知道当前根节点=>再从前序得到分割的区间，进行分治
- 存 中序 值-索引关系，从前序构造
+ 存 中序 <值-索引>关系，从前序构造
  */
 class Solution {
     int maxVal=INT_MIN;
     inline int index(int val) {    /* return a node value's index on nodeMap */
         return (val >= 0 ? val : maxVal - val);
     }
+	
     TreeNode* build(const vector<int>& preorder,int pl,int pr,int il,int* nodeMap){//[pl pr)
         if(pl==pr)
             return NULL;
@@ -24,7 +25,6 @@ class Solution {
         int rootVal = preorder[pl];
         TreeNode* root = new TreeNode(rootVal);
 
-        /* determine root node index in the inorder table */
         int rootIndex = nodeMap[index(rootVal)];
 
         int delta = rootIndex - il;
@@ -54,7 +54,7 @@ public:
 };
 /**
 迭代法 巧妙的。。。
-对于前序遍历中的任意两个连续节点 u 和 v， u和v只有两种可能的关系：
+对于前序遍历中的任意两个连续节点 u 和 v，(u=>v=> )只可能有两种关系：
 1.v 是 u 的左儿子。因为在遍历到 u 之后，下一个遍历的节点就是 u 的左儿子，即 v；
 2.u 没有左儿子，并且 v 是 u 的某个祖先节点（或者 u 本身）的右儿子。
 如果 u 没有左儿子，那么下一个遍历的节点就是 u 的右儿子。
