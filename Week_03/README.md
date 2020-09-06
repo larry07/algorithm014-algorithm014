@@ -59,6 +59,19 @@ int climb(int i,int n,int memo[]){
     memo[i]=climb(i+1,n,memo)+climb(i+2,n,memo);
     return memo[i];
 }
+climb(0,n,memo);
+//上面代码 memo[0]代表了爬到n阶梯  memo[n]代表到0阶梯 仍是自顶向下， 
+//对n=10,memo[9]=climb(10,)+climb(11,)=1+0=1;   dp[1]
+//memo[8]=1+1=2; dp[2]
+//memo[7]=3;     dp[3]  故dp[10]=memo[0]
+//不是那么好理解，改为下面  还能省个参数n
+int climb(int i,int memo[])
+    if(i<=3)return i;
+    if(memo[i]>0)
+        return memo[i];
+    memo[i]=climb(i-1,n,memo)+climb(i-2,n,memo);
+    return memo[i];
+climb(n,n,memo);
 ```
 
 动态规划  数组递推 也可用滚动常数优化空间
