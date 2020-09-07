@@ -183,7 +183,7 @@ int binarySearch(const vector<int>& nums, int target) {
 
 ### 二分查找，寻找一个半有序数组 [4, 5, 6, 7, 0, 1, 2] 中间无序的地方
 
-这个就是`153.寻找旋转排序数组中最小值findMin`题目,因为`[mid]在未只可能`
+这个就是`153.寻找旋转排序数组中最小值findMin`题目,因为`[mid]`只可能在左区或右区
 
 `left`和`right` 夹逼直到`出while，left=right` 都在右区，则为`min`
 
@@ -195,7 +195,7 @@ while (left < right){
     int mid = left + ((right - left) >> 1);
     if (nums[mid] > nums[right])  //mid在左区，right在右区
         left = mid + 1;           //left 可能越到右区
-    else						  //mid同right都在右区 保持 right在右区
+    else						  //mid同right都在右区 right往左缩 并保持right在右区
         right = mid;
 }
 return nums[left];
