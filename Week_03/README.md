@@ -357,7 +357,9 @@ TreeNode* buildTree(vector<int>& preorder, vector<int>& inorder) {
 
 $$
 C_n^0+C_n^1+C_n^2+...+C_n^n=2^n \\
-C_n^1+C_n^2+...+C_n^n=2^n-1
+C_n^1+C_n^2+...+C_n^n=2^n-1	\\
+
+C_n^m =C_{n-1}^{m-1}+C_{n-1}^{m}
 $$
 
 第一个公式，就是相当于n个元素的**选与不选**的合集，第二个公式至少选一个
